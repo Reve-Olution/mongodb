@@ -55,11 +55,9 @@ public class InsertDataAtFixedRateReplica {
 					try{
 						insertOne(db, cpt,mongoClient);
 						cpt++;
+					}catch(MongoException ex){
+						logger.severe(ex.getMessage());
 						
-					}catch (Throwable t){
-						logger.severe(t.getMessage());
-						//System.out.println("Exception: "  +t.getMessage());
-						//t.printStackTrace();
 					}  
 				  }
 				}, 5000, 5000);
@@ -83,8 +81,6 @@ public class InsertDataAtFixedRateReplica {
 				logger.info("Data inserted: " + d.toJson());
 				logger.info(getMasterInfosAsString(client));
 				
-				
-				//System.out.println(getMasterInfosAsString(client));
 			}else{
 				logger.warning("Data not inserted: Master not found");
 			}
